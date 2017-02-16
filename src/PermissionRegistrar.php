@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Cache\Repository;
 use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Exceptions\CouldNotRegisterPermissions;
 
 class PermissionRegistrar
 {
@@ -51,9 +52,7 @@ class PermissionRegistrar
 
             return true;
         } catch (Exception $exception) {
-            Log::alert(
-                "Could not register permissions because {$exception->getMessage()}".PHP_EOL
-                .$exception->getTraceAsString());
+            throw new CouldNotRegisterPermissions();
 
             return false;
         }
